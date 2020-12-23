@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from "react";
 import './App.css';
 
 function App() {
+  const [joke, setJoke]= useState("loading :)");
+  const newJoke = () => {
+    fetch("https://api.icndb.com/jokes/random?firstName=Santa&lastName=Chacha")
+    .then(res=>res.json())
+    .then(res2=>{
+      console.log(res2)
+      setJoke(res2.value.joke)
+    })
+  }
+  useEffect(()=> {
+    newJoke();
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={()=>newJoke()}> Get Another Joke! </button>
+      <h4>{joke}</h4>
     </div>
   );
 }
